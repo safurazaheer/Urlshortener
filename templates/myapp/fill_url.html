@@ -1,0 +1,12 @@
+{% extends "myapp/base.html" %} {% block content %}
+<form action="" method="post">
+  {% csrf_token %} {{ form.as_table }}
+  <input type="submit" value="Submit" />
+</form>
+<div class="jumbotron">
+  <p>The following URL:</p>
+  <h4>{{ data.original_url }}</h4>
+  <p>Now, it is shortened to:</p>
+  <h4>{{ data.keyword }}</h4>
+</div>
+{% endblock %}

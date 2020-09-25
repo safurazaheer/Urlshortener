@@ -1,0 +1,70 @@
+{% load static %}
+<html lang="en">
+  <head>
+    
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <title>URLShortener</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  </head>
+  <body>
+    <div class="topnav">
+      <ul>
+        <li><a class="active" href="#home">URLShortener</a></li>
+        {% if user.is_authenticated %}
+        <li style="float: right">
+          <a class="active" href="#">{{request.user }}</a>
+        </li>
+        <li><a href="{% url 'accounts:logout' %}">Logout</a></li>
+        {% else %}
+        <li><a href="{% url 'accounts:signup' %}">Register</a></li>
+        <li><a href="{% url 'accounts:login' %}">Login</a></li>
+        {% endif %}
+      </ul>
+    </div>
+
+    <div class="row">
+      <div class="column side">
+        
+        {% if user.is_authenticated %}
+        <h3>Enter the Url here</h3>
+        <form class="post-form" method="post">
+          {% csrf_token %} {% bootstrap_form form %}
+          <button type="submit" class="btn-whatever">Submit</button>
+          <!-- <input type="submit" value="Submit" /> -->
+        </form>
+        {% endif %}
+      </div>
+
+      <div class="column middle">
+        {% if user.is_authenticated %}
+        <h3>Your Shortened Urls</h3>
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">New Url</th>
+                <th scope="col">Old Url</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for i in data %}
+              <tr>
+                <td>{{ i.keyword }}</td>
+                <td>{{ i.original_url }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        
+        {% endif %}
+    </div>
+  </body>
+</html>
